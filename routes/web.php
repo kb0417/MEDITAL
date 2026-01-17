@@ -61,6 +61,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\DoctorController;
 use App\Http\Controllers\PatientController;
+use App\Http\Controllers\DoctorPatientController;
 
 /*
 |--------------------------------------------------------------------------
@@ -112,6 +113,9 @@ Route::middleware(['auth', 'isDoctor'])->group(function () {
 
     Route::post('/analyses', [DoctorController::class, 'store'])
         ->name('doctor.analyses.store');
+    
+    Route::get('/doctor/patients/create', [DoctorPatientController::class, 'create'])->name('doctor.patients.create');
+    Route::post('/doctor/patients', [DoctorPatientController::class, 'store'])->name('doctor.patients.store');
 });
 
 /*
@@ -121,10 +125,12 @@ Route::middleware(['auth', 'isDoctor'])->group(function () {
 */
 
 Route::middleware(['auth', 'isAdmin'])->group(function () {
+    Route::get('/admin', [AdminController::class, 'dashboard'])->name('admin.dashboard');
 
-    Route::get('/admin', [AdminController::class, 'dashboard'])
-        ->name('admin.dashboard');
+    Route::get('/admin/doctors', [AdminController::class, 'doctors'])->name('admin.doctors');
+    Route::post('/admin/doctors/{user}/validate', [AdminController::class, 'validateDoctor'])->name('admin.doctors.validate');
 });
+
 
 require __DIR__.'/auth.php';
 

@@ -1,244 +1,211 @@
 <x-app-layout>
     <x-slot name="header">
-        <div>
-            <h2 class="font-semibold text-2xl text-gray-800 leading-tight">
-                👑 Tableau de bord - Administrateur
-            </h2>
-            <p class="text-sm text-gray-600 mt-1">Vue d'ensemble et gestion de la plateforme</p>
+        <div class="flex items-center justify-between">
+            <div>
+                <h2 class="font-semibold text-2xl text-gray-900">
+                    👋 Tableau de bord
+                </h2>
+                <p class="text-sm text-gray-600 mt-1">Bienvenue dans votre espace administrateur</p>
+            </div>
+            <a href="{{ route('admin.doctors') }}" 
+               class="px-5 py-2.5 bg-blue-600 text-white text-sm font-semibold rounded-lg hover:bg-blue-700 shadow-md hover:shadow-lg transition-all">
+                👨‍⚕️ Gérer les médecins
+            </a>
         </div>
     </x-slot>
 
     <div class="py-8">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             
-            {{-- Message de bienvenue --}}
-            <div class="card-modern p-8 mb-8 animate-in" 
-                 style="background: linear-gradient(135deg, #4F46E5 0%, #7C3AED 100%); border: none;">
-                <div class="flex items-start gap-4">
-                    <div class="text-6xl">👋</div>
-                    <div class="flex-1">
-                        <h3 class="text-2xl font-bold text-white mb-2">
-                            Bienvenue, Administrateur !
-                        </h3>
-                        <p class="text-white/90 text-lg">
-                            Vous avez un contrôle total sur la plateforme MediConnect
-                        </p>
+            {{-- Statistiques en grille compacte --}}
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+                
+                {{-- Médecins actifs --}}
+                <div class="bg-white rounded-xl p-5 border border-gray-200 shadow-sm hover:shadow-lg transition-all">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-sm font-medium text-gray-600 mb-1">Médecins actifs</p>
+                            <p class="text-3xl font-bold text-gray-900">{{ $doctorsActive }}</p>
+                        </div>
+                        <div class="w-14 h-14 bg-blue-500 rounded-xl flex items-center justify-center shadow-md">
+                            <span class="text-2xl">👨‍⚕️</span>
+                        </div>
                     </div>
                 </div>
+
+                {{-- Analyses totales --}}
+                <div class="bg-white rounded-xl p-5 border border-gray-200 shadow-sm hover:shadow-lg transition-all">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-sm font-medium text-gray-600 mb-1">Analyses totales</p>
+                            <p class="text-3xl font-bold text-gray-900">0</p>
+                        </div>
+                        <div class="w-14 h-14 bg-green-500 rounded-xl flex items-center justify-center shadow-md">
+                            <span class="text-2xl">📊</span>
+                        </div>
+                    </div>
+                </div>
+
+                {{-- En attente --}}
+                <div class="bg-white rounded-xl p-5 border border-gray-200 shadow-sm hover:shadow-lg transition-all">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-sm font-medium text-gray-600 mb-1">En validation</p>
+                            <p class="text-3xl font-bold text-gray-900">{{ $doctorsPending }}</p>
+                        </div>
+                        <div class="w-14 h-14 bg-orange-500 rounded-xl flex items-center justify-center shadow-md">
+                            <span class="text-2xl">⏳</span>
+                        </div>
+                    </div>
+                </div>
+
+                {{-- Patients --}}
+                <div class="bg-white rounded-xl p-5 border border-gray-200 shadow-sm hover:shadow-lg transition-all">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-sm font-medium text-gray-600 mb-1">Patients</p>
+                            <p class="text-3xl font-bold text-gray-900">0</p>
+                        </div>
+                        <div class="w-14 h-14 bg-purple-500 rounded-xl flex items-center justify-center shadow-md">
+                            <span class="text-2xl">👥</span>
+                        </div>
+                    </div>
+                </div>
+
             </div>
 
-            {{-- Statistiques globales --}}
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+            {{-- Modules en grille 2x2 --}}
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 
-                <div class="stat-card animate-in" style="animation-delay: 0.1s;">
-                    <div class="stat-card-icon" style="background: linear-gradient(135deg, #4F46E5 0%, #7C3AED 100%);">
-                        👨‍⚕️
-                    </div>
-                    <div class="stat-card-value">0</div>
-                    <div class="stat-card-label">Médecins actifs</div>
-                </div>
-
-                <div class="stat-card animate-in" style="animation-delay: 0.2s;">
-                    <div class="stat-card-icon" style="background: linear-gradient(135deg, #10B981 0%, #059669 100%);">
-                        📊
-                    </div>
-                    <div class="stat-card-value">0</div>
-                    <div class="stat-card-label">Analyses totales</div>
-                </div>
-
-                <div class="stat-card animate-in" style="animation-delay: 0.3s;">
-                    <div class="stat-card-icon" style="background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%);">
-                        ⏳
-                    </div>
-                    <div class="stat-card-value">0</div>
-                    <div class="stat-card-label">En attente validation</div>
-                </div>
-
-                <div class="stat-card animate-in" style="animation-delay: 0.4s;">
-                    <div class="stat-card-icon" style="background: linear-gradient(135deg, #EC4899 0%, #DB2777 100%);">
-                        👥
-                    </div>
-                    <div class="stat-card-value">0</div>
-                    <div class="stat-card-label">Patients actifs</div>
-                </div>
-
-            </div>
-
-            {{-- Fonctionnalités à venir --}}
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                
-                {{-- Gestion des médecins --}}
-                <div class="card-modern p-6 animate-in" style="animation-delay: 0.5s;">
+                {{-- Gestion des médecins (ACTIF) --}}
+                <div class="bg-white rounded-xl p-6 border border-gray-200 shadow-sm hover:shadow-lg transition-all">
                     <div class="flex items-start gap-4 mb-4">
-                        <div class="w-14 h-14 rounded-xl flex items-center justify-center text-3xl"
-                             style="background: linear-gradient(135deg, #EFF6FF 0%, #DBEAFE 100%);">
-                            👨‍⚕️
+                        <div class="w-12 h-12 bg-blue-500 rounded-xl flex items-center justify-center flex-shrink-0 shadow-sm">
+                            <span class="text-2xl">👨‍⚕️</span>
                         </div>
                         <div class="flex-1">
-                            <h3 class="font-bold text-lg text-gray-800 mb-1">
-                                Gestion des médecins
-                            </h3>
-                            <p class="text-sm text-gray-600">
-                                Validez et gérez les comptes médecins
-                            </p>
+                            <h3 class="font-bold text-lg text-gray-900 mb-1">Gestion des médecins</h3>
+                            <p class="text-sm text-gray-600">Validation et suivi des comptes</p>
                         </div>
                     </div>
                     
-                    <div class="space-y-2 mb-4">
-                        <div class="flex items-center gap-2 text-sm text-gray-600">
+                    <div class="space-y-2 mb-5">
+                        <div class="flex items-center gap-2 text-sm text-gray-700">
                             <span class="text-green-500">✓</span>
-                            <span>Validation des nouvelles inscriptions</span>
+                            <span>Valider les nouvelles inscriptions</span>
                         </div>
-                        <div class="flex items-center gap-2 text-sm text-gray-600">
+                        <div class="flex items-center gap-2 text-sm text-gray-700">
                             <span class="text-green-500">✓</span>
-                            <span>Suspension / Activation de comptes</span>
+                            <span>Gérer les comptes actifs</span>
                         </div>
-                        <div class="flex items-center gap-2 text-sm text-gray-600">
+                        <div class="flex items-center gap-2 text-sm text-gray-700">
                             <span class="text-green-500">✓</span>
-                            <span>Historique des activités</span>
+                            <span>Suivre l'activité des médecins</span>
                         </div>
                     </div>
                     
-                    <button class="btn-secondary-modern w-full" disabled style="opacity: 0.6; cursor: not-allowed;">
-                        <span>🚧</span>
-                        Bientôt disponible
-                    </button>
+                    <a href="{{ route('admin.doctors') }}" 
+                       class="block w-full px-4 py-3 bg-blue-600 text-white text-sm font-semibold text-center rounded-lg hover:bg-blue-700 shadow-md hover:shadow-lg transition-all">
+                        Accéder au module →
+                    </a>
                 </div>
 
-                {{-- Gestion des analyses --}}
-                <div class="card-modern p-6 animate-in" style="animation-delay: 0.6s;">
+                {{-- Supervision des analyses --}}
+                <div class="bg-white rounded-xl p-6 border border-gray-200 shadow-sm opacity-70">
                     <div class="flex items-start gap-4 mb-4">
-                        <div class="w-14 h-14 rounded-xl flex items-center justify-center text-3xl"
-                             style="background: linear-gradient(135deg, #ECFDF5 0%, #D1FAE5 100%);">
-                            📊
+                        <div class="w-12 h-12 bg-green-500 rounded-xl flex items-center justify-center flex-shrink-0 shadow-sm">
+                            <span class="text-2xl">📊</span>
                         </div>
                         <div class="flex-1">
-                            <h3 class="font-bold text-lg text-gray-800 mb-1">
-                                Supervision des analyses
-                            </h3>
-                            <p class="text-sm text-gray-600">
-                                Consultez toutes les analyses de la plateforme
-                            </p>
+                            <h3 class="font-bold text-lg text-gray-900 mb-1">Supervision analyses</h3>
+                            <p class="text-sm text-gray-600">Vue globale et statistiques</p>
                         </div>
                     </div>
                     
-                    <div class="space-y-2 mb-4">
+                    <div class="space-y-2 mb-5">
                         <div class="flex items-center gap-2 text-sm text-gray-600">
-                            <span class="text-green-500">✓</span>
-                            <span>Vue globale de toutes les analyses</span>
+                            <span class="text-gray-400">○</span>
+                            <span>Consulter toutes les analyses</span>
                         </div>
                         <div class="flex items-center gap-2 text-sm text-gray-600">
-                            <span class="text-green-500">✓</span>
-                            <span>Statistiques détaillées</span>
+                            <span class="text-gray-400">○</span>
+                            <span>Générer des rapports</span>
                         </div>
                         <div class="flex items-center gap-2 text-sm text-gray-600">
-                            <span class="text-green-500">✓</span>
-                            <span>Exports et rapports</span>
+                            <span class="text-gray-400">○</span>
+                            <span>Exports de données</span>
                         </div>
                     </div>
                     
-                    <button class="btn-secondary-modern w-full" disabled style="opacity: 0.6; cursor: not-allowed;">
-                        <span>🚧</span>
-                        Bientôt disponible
-                    </button>
+                    <div class="block w-full px-4 py-3 bg-gray-200 text-gray-500 text-sm font-semibold text-center rounded-lg cursor-not-allowed">
+                        🚧 Bientôt disponible
+                    </div>
                 </div>
 
                 {{-- Paramètres système --}}
-                <div class="card-modern p-6 animate-in" style="animation-delay: 0.7s;">
+                <div class="bg-white rounded-xl p-6 border border-gray-200 shadow-sm opacity-70">
                     <div class="flex items-start gap-4 mb-4">
-                        <div class="w-14 h-14 rounded-xl flex items-center justify-center text-3xl"
-                             style="background: linear-gradient(135deg, #FEF3C7 0%, #FDE68A 100%);">
-                            ⚙️
+                        <div class="w-12 h-12 bg-orange-500 rounded-xl flex items-center justify-center flex-shrink-0 shadow-sm">
+                            <span class="text-2xl">⚙️</span>
                         </div>
                         <div class="flex-1">
-                            <h3 class="font-bold text-lg text-gray-800 mb-1">
-                                Paramètres système
-                            </h3>
-                            <p class="text-sm text-gray-600">
-                                Configuration de la plateforme
-                            </p>
+                            <h3 class="font-bold text-lg text-gray-900 mb-1">Paramètres système</h3>
+                            <p class="text-sm text-gray-600">Configuration plateforme</p>
                         </div>
                     </div>
                     
-                    <div class="space-y-2 mb-4">
+                    <div class="space-y-2 mb-5">
                         <div class="flex items-center gap-2 text-sm text-gray-600">
-                            <span class="text-green-500">✓</span>
-                            <span>Configuration des emails</span>
+                            <span class="text-gray-400">○</span>
+                            <span>Configurer emails & SMS</span>
                         </div>
                         <div class="flex items-center gap-2 text-sm text-gray-600">
-                            <span class="text-green-500">✓</span>
-                            <span>Gestion des notifications SMS</span>
+                            <span class="text-gray-400">○</span>
+                            <span>Gérer la sécurité</span>
                         </div>
                         <div class="flex items-center gap-2 text-sm text-gray-600">
-                            <span class="text-green-500">✓</span>
-                            <span>Paramètres de sécurité</span>
+                            <span class="text-gray-400">○</span>
+                            <span>Permissions utilisateurs</span>
                         </div>
                     </div>
                     
-                    <button class="btn-secondary-modern w-full" disabled style="opacity: 0.6; cursor: not-allowed;">
-                        <span>🚧</span>
-                        Bientôt disponible
-                    </button>
+                    <div class="block w-full px-4 py-3 bg-gray-200 text-gray-500 text-sm font-semibold text-center rounded-lg cursor-not-allowed">
+                        🚧 Bientôt disponible
+                    </div>
                 </div>
 
-                {{-- Logs et activités --}}
-                <div class="card-modern p-6 animate-in" style="animation-delay: 0.8s;">
+                {{-- Logs & Activités --}}
+                <div class="bg-white rounded-xl p-6 border border-gray-200 shadow-sm opacity-70">
                     <div class="flex items-start gap-4 mb-4">
-                        <div class="w-14 h-14 rounded-xl flex items-center justify-center text-3xl"
-                             style="background: linear-gradient(135deg, #FCE7F3 0%, #FBCFE8 100%);">
-                            📝
+                        <div class="w-12 h-12 bg-purple-500 rounded-xl flex items-center justify-center flex-shrink-0 shadow-sm">
+                            <span class="text-2xl">📝</span>
                         </div>
                         <div class="flex-1">
-                            <h3 class="font-bold text-lg text-gray-800 mb-1">
-                                Logs & Activités
-                            </h3>
-                            <p class="text-sm text-gray-600">
-                                Surveillance et audit de la plateforme
-                            </p>
+                            <h3 class="font-bold text-lg text-gray-900 mb-1">Logs & Activités</h3>
+                            <p class="text-sm text-gray-600">Audit et surveillance</p>
                         </div>
                     </div>
                     
-                    <div class="space-y-2 mb-4">
+                    <div class="space-y-2 mb-5">
                         <div class="flex items-center gap-2 text-sm text-gray-600">
-                            <span class="text-green-500">✓</span>
+                            <span class="text-gray-400">○</span>
                             <span>Journal des connexions</span>
                         </div>
                         <div class="flex items-center gap-2 text-sm text-gray-600">
-                            <span class="text-green-500">✓</span>
-                            <span>Historique des modifications</span>
+                            <span class="text-gray-400">○</span>
+                            <span>Historique modifications</span>
                         </div>
                         <div class="flex items-center gap-2 text-sm text-gray-600">
-                            <span class="text-green-500">✓</span>
+                            <span class="text-gray-400">○</span>
                             <span>Alertes de sécurité</span>
                         </div>
                     </div>
                     
-                    <button class="btn-secondary-modern w-full" disabled style="opacity: 0.6; cursor: not-allowed;">
-                        <span>🚧</span>
-                        Bientôt disponible
-                    </button>
-                </div>
-
-            </div>
-
-            {{-- Note de développement --}}
-            <div class="card-modern p-6 mt-8 animate-in" 
-                 style="background: linear-gradient(135deg, #F8FAFC 0%, #F1F5F9 100%); animation-delay: 0.9s;">
-                <div class="flex items-start gap-4">
-                    <span class="text-4xl">🚀</span>
-                    <div class="flex-1">
-                        <h3 class="font-bold text-gray-800 mb-2">Développement en cours</h3>
-                        <p class="text-gray-600 mb-3">
-                            Les fonctionnalités de gestion des médecins, validation des comptes et supervision 
-                            des analyses sont actuellement en développement. Elles seront ajoutées dans les 
-                            prochaines versions de la plateforme.
-                        </p>
-                        <p class="text-sm text-gray-500">
-                            💡 En attendant, vous pouvez tester les autres espaces (Patient et Médecin) pour 
-                            avoir un aperçu complet du système.
-                        </p>
+                    <div class="block w-full px-4 py-3 bg-gray-200 text-gray-500 text-sm font-semibold text-center rounded-lg cursor-not-allowed">
+                        🚧 Bientôt disponible
                     </div>
                 </div>
+
             </div>
 
         </div>

@@ -53,6 +53,38 @@
                       class="space-y-6">
 
                     @csrf
+                    {{-- Sélection du patient --}}
+                    <div>
+                        <!-- <label class="block mb-2 font-semibold text-gray-800 text-base">
+                            👤 Patient concerné
+                        </label> -->
+                        <div class="flex items-center justify-between">
+                            <label class="block mb-2 font-semibold text-gray-800 text-base">
+                                👤 Patient concerné
+                            </label>
+
+                            <a href="{{ route('doctor.patients.create') }}"
+                            class="text-sm font-semibold text-indigo-600 hover:text-indigo-700">
+                                ➕ Nouveau patient
+                            </a>
+                        </div>
+                        <select name="patient_id"
+                                required
+                                class="w-full rounded-xl border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 shadow-sm">
+                            <option value="">— Choisir un patient —</option>
+
+                            @foreach($patients as $patient)
+                                <option value="{{ $patient->id }}">
+                                    {{ $patient->full_name }} — {{ $patient->email }}
+                                </option>
+                            @endforeach
+                        </select>
+
+                        <p class="mt-2 text-sm text-gray-500">
+                            Le patient recevra automatiquement un email avec l’ID d’accès
+                        </p>
+                    </div>
+
 
                     {{-- Zone d'upload --}}
                     <div>

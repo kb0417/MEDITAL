@@ -20,6 +20,10 @@ class IsDoctor
         if (Auth::user()->role !== 'doctor') {
             abort(403, 'Accès réservé aux médecins');
         }
+        
+        if (!Auth::user()->is_validated) {
+            abort(403, 'Votre compte médecin est en attente de validation.');
+        }
 
         return $next($request);
     }
