@@ -1,52 +1,110 @@
 <x-guest-layout>
-    <form method="POST" action="{{ route('register') }}">
+    
+    <h2 class="auth-title">Inscription</h2>
+    <p class="auth-subtitle">Créez votre compte professionnel</p>
+
+    <form method="POST" action="{{ route('register') }}" style="display: flex; flex-direction: column; gap: 1.25rem;">
         @csrf
 
         <!-- Name -->
         <div>
-            <x-input-label for="name" :value="__('Name')" />
-            <x-text-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')" required autofocus autocomplete="name" />
-            <x-input-error :messages="$errors->get('name')" class="mt-2" />
+            <label for="name" class="label-modern">
+                <span style="font-size: 1.125rem;">👤</span> Nom complet
+            </label>
+            <input id="name" 
+                   class="input-modern" 
+                   type="text" 
+                   name="name" 
+                   value="{{ old('name') }}" 
+                   required 
+                   autofocus 
+                   autocomplete="name"
+                   placeholder="Dr. Jean Dupont" />
+            @error('name')
+                <p class="error-message">{{ $message }}</p>
+            @enderror
         </div>
 
         <!-- Email Address -->
-        <div class="mt-4">
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autocomplete="username" />
-            <x-input-error :messages="$errors->get('email')" class="mt-2" />
+        <div>
+            <label for="email" class="label-modern">
+                <span style="font-size: 1.125rem;">📧</span> Adresse email professionnelle
+            </label>
+            <input id="email" 
+                   class="input-modern" 
+                   type="email" 
+                   name="email" 
+                   value="{{ old('email') }}" 
+                   required 
+                   autocomplete="username"
+                   placeholder="dr.dupont@hopital.ma" />
+            @error('email')
+                <p class="error-message">{{ $message }}</p>
+            @enderror
+            <p style="margin-top: 0.625rem; font-size: 0.8125rem; color: #6b7280; display: flex; align-items: center; gap: 0.5rem;">
+                <span>💡</span>
+                <span>Utilisez votre email professionnel pour la validation</span>
+            </p>
         </div>
 
         <!-- Password -->
-        <div class="mt-4">
-            <x-input-label for="password" :value="__('Password')" />
-
-            <x-text-input id="password" class="block mt-1 w-full"
-                            type="password"
-                            name="password"
-                            required autocomplete="new-password" />
-
-            <x-input-error :messages="$errors->get('password')" class="mt-2" />
+        <div>
+            <label for="password" class="label-modern">
+                <span style="font-size: 1.125rem;">🔒</span> Mot de passe
+            </label>
+            <input id="password" 
+                   class="input-modern"
+                   type="password"
+                   name="password"
+                   required 
+                   autocomplete="new-password"
+                   placeholder="••••••••" />
+            @error('password')
+                <p class="error-message">{{ $message }}</p>
+            @enderror
         </div>
 
         <!-- Confirm Password -->
-        <div class="mt-4">
-            <x-input-label for="password_confirmation" :value="__('Confirm Password')" />
-
-            <x-text-input id="password_confirmation" class="block mt-1 w-full"
-                            type="password"
-                            name="password_confirmation" required autocomplete="new-password" />
-
-            <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
+        <div>
+            <label for="password_confirmation" class="label-modern">
+                <span style="font-size: 1.125rem;">✓</span> Confirmer le mot de passe
+            </label>
+            <input id="password_confirmation" 
+                   class="input-modern"
+                   type="password"
+                   name="password_confirmation" 
+                   required 
+                   autocomplete="new-password"
+                   placeholder="••••••••" />
+            @error('password_confirmation')
+                <p class="error-message">{{ $message }}</p>
+            @enderror
         </div>
 
-        <div class="flex items-center justify-end mt-4">
-            <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('login') }}">
-                {{ __('Already registered?') }}
-            </a>
+        <!-- Info de validation -->
+        <div style="padding: 1.125rem; background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%); border-radius: 12px; border: 2px solid #fcd34d;">
+            <div style="display: flex; align-items: start; gap: 0.75rem;">
+                <span style="font-size: 1.25rem; flex-shrink: 0;">ℹ️</span>
+                <div style="font-size: 0.8125rem; color: #78350f; font-weight: 500; line-height: 1.5;">
+                    <strong style="display: block; margin-bottom: 0.375rem; color: #92400e;">Validation requise</strong>
+                    Votre compte sera validé par un administrateur avant l'accès à la plateforme. 
+                    Vous recevrez un email de confirmation.
+                </div>
+            </div>
+        </div>
 
-            <x-primary-button class="ms-4">
-                {{ __('Register') }}
-            </x-primary-button>
+        <div style="display: flex; flex-direction: column; gap: 1rem; margin-top: 0.5rem;">
+            <button type="submit" class="btn-primary-auth">
+                <span style="font-size: 1.25rem;">✓</span>
+                Créer mon compte
+            </button>
+            
+            <div style="text-align: center;">
+                <a class="link-modern" href="{{ route('login') }}">
+                    Vous avez déjà un compte ? Se connecter
+                </a>
+            </div>
         </div>
     </form>
+
 </x-guest-layout>

@@ -116,6 +116,13 @@ Route::middleware(['auth', 'isDoctor'])->group(function () {
     
     Route::get('/doctor/patients/create', [DoctorPatientController::class, 'create'])->name('doctor.patients.create');
     Route::post('/doctor/patients', [DoctorPatientController::class, 'store'])->name('doctor.patients.store');
+    // Patients
+    Route::get('/doctor/patients', [DoctorPatientController::class, 'index'])
+        ->name('doctor.patients.index');
+
+    // Analyses (liste)
+    Route::get('/doctor/analyses', [DoctorAnalyseController::class, 'index'])
+        ->name('doctor.analyses.index');
 });
 
 /*

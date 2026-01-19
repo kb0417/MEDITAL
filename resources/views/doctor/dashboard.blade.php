@@ -1,16 +1,18 @@
 <x-app-layout>
-
     <x-slot name="header">
         <div class="flex items-center justify-between">
             <div>
-                <h2 class="font-semibold text-2xl text-gray-900">
-                    👨‍⚕️ Espace Médecin
+                <h2 class="font-bold text-3xl" style="color: #047857; display: flex; align-items: center; gap: 0.75rem;">
+                    <span style="font-size: 2rem;">👨‍⚕️</span>
+                    Espace Médecin
                 </h2>
-                <p class="text-sm text-gray-600 mt-1">Gestion de vos analyses médicales</p>
+                <p class="text-sm mt-2" style="color: #6b7280; font-weight: 500;">
+                    Gérez vos analyses médicales et suivez vos patients
+                </p>
             </div>
-            <a href="{{ route('doctor.analyses.create') }}" 
-               class="px-5 py-2.5 bg-blue-600 text-white text-sm font-semibold rounded-lg hover:bg-blue-700 shadow-md transition-all">
-                + Nouvelle analyse
+            <a href="{{ route('doctor.analyses.create') }}" class="btn-primary-modern">
+                <span style="font-size: 1.25rem;">➕</span>
+                Nouvelle analyse
             </a>
         </div>
     </x-slot>
@@ -18,100 +20,157 @@
     <div class="py-8">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
 
-            {{-- Statistiques compactes --}}
-            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
+            {{-- KPI Cards --}}
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-8 animate-in">
                 
-                <div class="bg-white rounded-lg p-5 border border-gray-200 shadow-sm">
-                    <div class="flex items-center justify-between">
-                        <div>
-                            <p class="text-sm font-medium text-gray-600">Total</p>
-                            <p class="text-3xl font-bold text-gray-900">{{ $totalAnalyses }}</p>
+                <div class="stat-card">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="stat-card-icon" style="background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%); color: #1e40af;">
+                            📊
                         </div>
-                        <div class="w-12 h-12 bg-blue-500 rounded-lg flex items-center justify-center">
-                            <span class="text-xl">📊</span>
+                        <div class="badge-info" style="padding: 0.375rem 0.75rem; font-size: 0.75rem;">
+                            Total
                         </div>
+                    </div>
+                    <div class="stat-card-value">{{ $totalAnalyses }}</div>
+                    <div class="stat-card-label">Analyses totales</div>
+                    <div style="margin-top: 0.875rem; padding-top: 0.875rem; border-top: 1px solid rgba(16, 185, 129, 0.08); font-size: 0.8125rem; color: #9ca3af;">
+                        Depuis le début
                     </div>
                 </div>
 
-                <div class="bg-white rounded-lg p-5 border border-gray-200 shadow-sm">
-                    <div class="flex items-center justify-between">
-                        <div>
-                            <p class="text-sm font-medium text-gray-600">Ce mois</p>
-                            <p class="text-3xl font-bold text-gray-900">{{ $analysesMois }}</p>
+                <div class="stat-card">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="stat-card-icon" style="background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%); color: #047857;">
+                            📅
                         </div>
-                        <div class="w-12 h-12 bg-green-500 rounded-lg flex items-center justify-center">
-                            <span class="text-xl">📅</span>
+                        <div class="badge-success" style="padding: 0.375rem 0.75rem; font-size: 0.75rem;">
+                            ● Ce mois
                         </div>
+                    </div>
+                    <div class="stat-card-value">{{ $analysesMois }}</div>
+                    <div class="stat-card-label">Analyses du mois</div>
+                    <div style="margin-top: 0.875rem; padding-top: 0.875rem; border-top: 1px solid rgba(16, 185, 129, 0.08); font-size: 0.8125rem; color: #9ca3af;">
+                        {{ \Carbon\Carbon::now()->locale('fr')->isoFormat('MMMM YYYY') }}
                     </div>
                 </div>
 
-                <div class="bg-white rounded-lg p-5 border border-gray-200 shadow-sm">
-                    <div class="flex items-center justify-between">
-                        <div>
-                            <p class="text-sm font-medium text-gray-600">Cette semaine</p>
-                            <p class="text-3xl font-bold text-gray-900">{{ $analysesSemaine }}</p>
+                <div class="stat-card">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="stat-card-icon" style="background: linear-gradient(135deg, #fce7f3 0%, #fbcfe8 100%); color: #9f1239;">
+                            ⚡
                         </div>
-                        <div class="w-12 h-12 bg-purple-500 rounded-lg flex items-center justify-center">
-                            <span class="text-xl">⚡</span>
+                        <div class="badge-warning" style="padding: 0.375rem 0.75rem; font-size: 0.75rem;">
+                            7 jours
                         </div>
+                    </div>
+                    <div class="stat-card-value">{{ $analysesSemaine }}</div>
+                    <div class="stat-card-label">Cette semaine</div>
+                    <div style="margin-top: 0.875rem; padding-top: 0.875rem; border-top: 1px solid rgba(16, 185, 129, 0.08); font-size: 0.8125rem; color: #9ca3af;">
+                        Activité récente
                     </div>
                 </div>
 
             </div>
 
             {{-- Liste des analyses --}}
-            <div class="bg-white rounded-lg shadow-sm border border-gray-200">
+            <div class="card-modern animate-in" style="animation-delay: 0.1s;">
                 
-                <div class="px-6 py-4 border-b border-gray-200">
-                    <h3 class="text-lg font-semibold text-gray-900">Liste des analyses</h3>
+                <div style="padding: 2rem; border-bottom: 1px solid rgba(16, 185, 129, 0.1);">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <h3 style="font-size: 1.5rem; font-weight: 800; color: #1f2937; display: flex; align-items: center; gap: 0.75rem;">
+                                <span style="font-size: 1.75rem;">📋</span>
+                                Liste des analyses
+                            </h3>
+                            <p style="font-size: 0.9375rem; color: #6b7280; margin-top: 0.5rem;">
+                                Historique complet de vos résultats d'analyses
+                            </p>
+                        </div>
+                        <div class="badge-info" style="padding: 0.625rem 1.25rem; font-size: 0.9375rem;">
+                            {{ $analyses->total() }} résultats
+                        </div>
+                    </div>
                 </div>
 
-                <div class="overflow-x-auto">
-                    <table class="min-w-full divide-y divide-gray-200">
-                        <thead class="bg-gray-50">
+                <div style="overflow-x: auto;">
+                    <table class="table-modern">
+                        <thead>
                             <tr>
-                                <th class="px-6 py-3 text-left text-xs font-semibold text-gray-700 uppercase">ID</th>
-                                <th class="px-6 py-3 text-left text-xs font-semibold text-gray-700 uppercase">Date</th>
-                                <th class="px-6 py-3 text-left text-xs font-semibold text-gray-700 uppercase">Patient</th>
-                                <th class="px-6 py-3 text-left text-xs font-semibold text-gray-700 uppercase">Résultat</th>
-                                <th class="px-6 py-3 text-left text-xs font-semibold text-gray-700 uppercase">Actions</th>
+                                <th>ID d'accès</th>
+                                <th>Date & Heure</th>
+                                <th>Patient</th>
+                                <th>Document</th>
+                                <th style="text-align: center;">Actions</th>
                             </tr>
                         </thead>
-                        <tbody class="bg-white divide-y divide-gray-200">
+                        <tbody>
                             @forelse ($analyses as $analyse)
-                                <tr class="hover:bg-gray-50">
-                                    <td class="px-6 py-4">
-                                        <span class="px-3 py-1 bg-blue-100 text-blue-700 text-xs font-semibold rounded-full">
-                                            {{ $analyse->access_id }}
-                                        </span>
+                                <tr>
+                                    <td>
+                                        <div style="display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.5rem 1rem; background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%); border-radius: 50px; border: 1px solid #93c5fd;">
+                                            <span style="color: #1e40af; font-weight: 700; font-size: 0.8125rem; font-family: monospace;">
+                                                {{ $analyse->access_id }}
+                                            </span>
+                                        </div>
                                     </td>
-                                    <td class="px-6 py-4 text-sm text-gray-900">
-                                        {{ $analyse->created_at->format('d/m/Y H:i') }}
+                                    <td>
+                                        <div style="display: flex; align-items: center; gap: 0.5rem;">
+                                            <span style="font-size: 1rem;">📅</span>
+                                            <div>
+                                                <div style="font-weight: 600; color: #374151;">
+                                                    {{ $analyse->created_at->format('d/m/Y') }}
+                                                </div>
+                                                <div style="font-size: 0.8125rem; color: #9ca3af;">
+                                                    {{ $analyse->created_at->format('H:i') }}
+                                                </div>
+                                            </div>
+                                        </div>
                                     </td>
-                                    <td class="px-6 py-4">
-                                        <span class="px-3 py-1 bg-green-100 text-green-700 text-xs font-semibold rounded-full">
-                                            {{ $analyse->patient->full_name ?? 'N/A' }}
-                                        </span>
+                                    <td>
+                                        <div style="display: flex; align-items: center; gap: 0.75rem;">
+                                            <div style="width: 40px; height: 40px; border-radius: 10px; background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%); display: flex; align-items: center; justify-content: center; color: #047857; font-weight: 700; font-size: 0.875rem; border: 2px solid white; box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);">
+                                                {{ strtoupper(substr($analyse->patient->full_name ?? 'N/A', 0, 2)) }}
+                                            </div>
+                                            <div>
+                                                <div style="font-weight: 600; color: #1f2937; font-size: 0.9375rem;">
+                                                    {{ $analyse->patient->full_name ?? 'N/A' }}
+                                                </div>
+                                                <div style="font-size: 0.8125rem; color: #9ca3af;">
+                                                    Patient
+                                                </div>
+                                            </div>
+                                        </div>
                                     </td>
-                                    <td class="px-6 py-4">
+                                    <td>
                                         <a href="{{ asset('storage/'.$analyse->pdf_path) }}" 
                                            target="_blank"
-                                           class="text-blue-600 hover:text-blue-700 font-medium text-sm">
-                                            📄 Voir PDF
+                                           style="display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.625rem 1.125rem; background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%); color: #92400e; border-radius: 10px; font-weight: 600; text-decoration: none; font-size: 0.875rem; border: 1px solid #fcd34d; transition: all 0.3s ease;">
+                                            <span style="font-size: 1.125rem;">📄</span>
+                                            Voir le PDF
                                         </a>
                                     </td>
-                                    <td class="px-6 py-4">
-                                        <button class="px-3 py-1 text-xs font-medium text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200">
+                                    <td style="text-align: center;">
+                                        <button class="btn-secondary-modern" style="padding: 0.625rem 1.25rem; font-size: 0.875rem;">
+                                            <span>👁️</span>
                                             Détails
                                         </button>
                                     </td>
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="5" class="px-6 py-12 text-center">
-                                        <div class="text-gray-400 text-5xl mb-3">📂</div>
-                                        <p class="text-gray-600 font-medium">Aucune analyse enregistrée</p>
-                                        <p class="text-sm text-gray-500 mt-1">Ajoutez votre première analyse</p>
+                                    <td colspan="5">
+                                        <div class="empty-state">
+                                            <div class="empty-state-icon">📂</div>
+                                            <div class="empty-state-title">Aucune analyse enregistrée</div>
+                                            <div class="empty-state-text">
+                                                Commencez par ajouter votre première analyse médicale
+                                            </div>
+                                            <a href="{{ route('doctor.analyses.create') }}" class="btn-primary-modern" style="margin-top: 1.5rem;">
+                                                <span style="font-size: 1.25rem;">➕</span>
+                                                Ajouter une analyse
+                                            </a>
+                                        </div>
                                     </td>
                                 </tr>
                             @endforelse
@@ -121,7 +180,7 @@
 
                 {{-- Pagination --}}
                 @if($analyses->count() > 0)
-                    <div class="px-6 py-4 border-t border-gray-200">
+                    <div style="padding: 1.5rem 2rem; border-top: 1px solid rgba(16, 185, 129, 0.1);">
                         {{ $analyses->links() }}
                     </div>
                 @endif
@@ -130,5 +189,4 @@
 
         </div>
     </div>
-
 </x-app-layout>
